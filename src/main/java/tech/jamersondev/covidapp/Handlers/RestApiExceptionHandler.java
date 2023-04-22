@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import tech.jamersondev.covidapp.Exceptions.ErrorResponse;
 import tech.jamersondev.covidapp.Exceptions.ResourceBadRequestException;
+import tech.jamersondev.covidapp.Exceptions.ResourceDataIntegrityViolationException;
 import tech.jamersondev.covidapp.Exceptions.ResourceNotFoundException;
 import tech.jamersondev.covidapp.Util.ConversorDate;
 
@@ -34,5 +35,16 @@ public class RestApiExceptionHandler {
         ErrorResponse error = new ErrorResponse(dataHora, HttpStatus.NOT_FOUND.value(), "Not Found Exception",
          excep.getMessage());
          return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ResourceDataIntegrityViolationException.class)
+    public ResponseEntity<ErrorResponse> handlerResourceDataIntegrityViolationException(ResourceDataIntegrityViolationException excep){
+        String dataHora = ConversorDate.converterDateParaDataHora(new Date());
+
+        ErrorResponse error = new ErrorResponse(dataHora, HttpStatus.INTERNAL_SERVER_ERROR.value(),
+         "Desculpe, ocorreu um erro ao processar sua solicitação devido a uma violação de integridade de dados", excep.getMessage());
+       
+       return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+
     }
 }
