@@ -1,8 +1,6 @@
 package tech.jamersondev.covidapp.Jwt;
 
 import java.security.Key;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Value;
