@@ -10,12 +10,16 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import tech.jamersondev.covidapp.Domain.User;
 import tech.jamersondev.covidapp.Domain.DTOs.User.LoginRequestDTO;
+import tech.jamersondev.covidapp.Domain.DTOs.User.LoginResponseDTO;
+import tech.jamersondev.covidapp.Domain.DTOs.User.UserResponseDTO;
 import tech.jamersondev.covidapp.Exceptions.ResourceBadRequestException;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter{
@@ -48,8 +52,22 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
             Authentication authResult) throws IOException, ServletException {
-        // TODO Auto-generated method stub
-        super.successfulAuthentication(request, response, chain, authResult);
+     
+                User usuario = (User) authResult.getPrincipal();
+                String token = jwtUtil.geradorToken(authResult);
+
+                UserResponseDTO userResponseDTO = new UserResponseDTO();
+
+                userResponseDTO.setId(usuario.getId());
+                userResponseDTO.setNome(usuario.getNome());
+                usuario.setEmail(usuario.getEmail());
+
+                LoginResponseDTO loginResponse = new LoginResponseDTO();
+                loginResponse.setToken("Bearer " + token);
+
+                response.setCharacterEncoding("UTF-8");
+                response.setContentType("application/json");
+                response.getWriter().write(new Gson().toJson(loginResponse));
     }
 
     @Override
