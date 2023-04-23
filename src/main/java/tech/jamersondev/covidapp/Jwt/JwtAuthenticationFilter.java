@@ -1,7 +1,9 @@
 package tech.jamersondev.covidapp.Jwt;
 
 import java.io.IOException;
+import java.util.Date;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,7 +22,9 @@ import tech.jamersondev.covidapp.Domain.User;
 import tech.jamersondev.covidapp.Domain.DTOs.User.LoginRequestDTO;
 import tech.jamersondev.covidapp.Domain.DTOs.User.LoginResponseDTO;
 import tech.jamersondev.covidapp.Domain.DTOs.User.UserResponseDTO;
+import tech.jamersondev.covidapp.Exceptions.ErrorResponse;
 import tech.jamersondev.covidapp.Exceptions.ResourceBadRequestException;
+import tech.jamersondev.covidapp.Util.ConversorDate;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter{
 
@@ -73,9 +77,19 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
             AuthenticationException failed) throws IOException, ServletException {
-        // TODO Auto-generated method stub
-        super.unsuccessfulAuthentication(request, response, failed);
-    }
+
+                String dataHora = ConversorDate.converterDateParaDataHora(new Date());
+                
+                ErrorResponse error = new ErrorResponse(dataHora, HttpStatus.UNAUTHORIZED.value(), 
+                "Unauthorized", failed.getMessage());
+
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.setCharacterEncoding("UTF-8");
+                response.setContentType("application/json");
+                response.getWriter().println(new Gson().toJson(error));
+
+                
+      }
 
 
     
