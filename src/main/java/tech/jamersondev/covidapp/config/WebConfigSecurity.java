@@ -10,6 +10,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
+import tech.jamersondev.covidapp.Jwt.JwtAuthenticationFilter;
+import tech.jamersondev.covidapp.Jwt.JwtAuthorizationFilter;
+import tech.jamersondev.covidapp.Jwt.JwtUtil;
 import tech.jamersondev.covidapp.Service.ServiceImpl.UserDetailsSecurityImpl;
 
 
@@ -20,11 +23,14 @@ public class WebConfigSecurity {
 
     private AuthenticationConfiguration authConfig;
 
+    private JwtUtil jwtUtil;
+
     private UserDetailsSecurityImpl userDetailsSecurityImpl;
 
-    public WebConfigSecurity(AuthenticationConfiguration authConfig, UserDetailsSecurityImpl userDetailsSecurityImpl) {
+    public WebConfigSecurity(AuthenticationConfiguration authConfig, UserDetailsSecurityImpl userDetailsSecurityImpl, JwtUtil jwtUtil) {
         this.authConfig = authConfig;
         this.userDetailsSecurityImpl = userDetailsSecurityImpl;
+        this.jwtUtil = jwtUtil;
     }
 
     @Bean
@@ -45,6 +51,9 @@ public class WebConfigSecurity {
             .requestMatchers(HttpMethod.POST, "/user/cadastro").permitAll()
             .anyRequest().authenticated())
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        http.addFilter(new JwtAuthenticationFilter(authenticationManager(authConfig), jwtUtil));
+        http.addFilter(new JwtAuthorizationFilter(authenticationManager(authConfig), jwtUtil, userDetailsSecurityImpl));
 
         return http.build();
 
