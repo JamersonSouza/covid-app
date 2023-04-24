@@ -1,6 +1,5 @@
 package tech.jamersondev.covidapp.Domain.DTOs.API;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
