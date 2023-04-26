@@ -73,6 +73,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 loginResponse.setUsuario(userResponseDTO);
 
                 response.setCharacterEncoding("UTF-8");
+                response.setHeader("access-control-expose-headers", "Authorization");
+                response.setHeader("Authorization", "Bearer " + token);
                 response.setContentType("application/json");
                 response.getWriter().write(new Gson().toJson(loginResponse));
     }
