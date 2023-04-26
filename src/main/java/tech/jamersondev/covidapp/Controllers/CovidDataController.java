@@ -3,6 +3,7 @@ package tech.jamersondev.covidapp.Controllers;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,15 +21,14 @@ public class CovidDataController {
         this.countryDataService = countryDataService;
     }
 
-    
-    @GetMapping("/countries")
-    public List<CountryDataDTO> getCountries(){
-        return countryDataService.getPaises();
-    }
 
     @GetMapping("/resumo")
     public SummaryDataDTO getResumo(){
         return countryDataService.getResumo();
     }
     
+    @GetMapping("/countries/{country}")
+    public String getDataCountry(@PathVariable String country){
+        return countryDataService.getCountryData(country);
+    }
 }

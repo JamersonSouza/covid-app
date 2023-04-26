@@ -35,4 +35,11 @@ public class CountryDataService {
         SummaryDataDTO response = restTemplate.getForObject(urlRequest, SummaryDataDTO.class);
         return response;
     }
+
+    
+    public String getCountryData(String countryCode) {
+        String urlReq = REQUESTS_API + "total/dayone/country/" + countryCode;
+        String response = restTemplate.getForObject(urlReq, String.class);
+        return response;
+    }
 }
