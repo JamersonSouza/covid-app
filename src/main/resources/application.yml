@@ -7,11 +7,11 @@ spring:
     jpa:
         show-sql: true
         hibernate:
-            ddl-auto: create
+            ddl-auto: update
         properties:
             hibernate:
             dialect: org.hibernate.dialect.MySQL8Dialect
 
-jwtKey: secr3tb0c4429
+jwtKey: secr3tb0c4429cf83e1357eefb8#Jam3s
 jwtTimeExpiration: 259200000
     
