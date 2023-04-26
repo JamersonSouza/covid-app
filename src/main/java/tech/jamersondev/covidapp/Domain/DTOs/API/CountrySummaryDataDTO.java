@@ -13,6 +13,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CountrySummaryDataDTO {
 
+    @JsonProperty("ID")
+    private String id;
+
     @JsonProperty("Country")
     private String country;
 
