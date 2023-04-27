@@ -22,9 +22,13 @@ public class CountryData {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @JsonProperty("Country")
     private String country;
+    @JsonProperty("Confirmed")
     private int totalCasosConfirmado;
+    @JsonProperty("Deaths")
     private int totalMortesConfirmado;
+    @JsonProperty("Active")
     private int qtdCasosAtivos;
 
     @ManyToOne
