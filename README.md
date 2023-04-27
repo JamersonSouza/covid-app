@@ -46,7 +46,7 @@ Para acessar os endpoints protegidos por autenticação JWT, você deve incluir 
 * Spring Boot
 * Spring Security
 * JWT
-* Generics
+* Lombok
 * ModelMapper
 * Banco de Dados (MySQL)
 
